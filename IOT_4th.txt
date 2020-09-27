@@ -1,0 +1,38 @@
+#include <Servo.h>
+
+int POS = 0;
+int DEG = 0;
+int sw1 = 0;
+
+Servo servo_3;
+
+void setup()
+{
+  pinMode(A0, INPUT);
+  pinMode(5, INPUT);
+  servo_3.attach(3);
+
+  Serial.begin(9600);
+
+}
+
+void loop()
+{
+  POS = analogRead(A0);
+  sw1 = digitalRead(5);
+  POS = map(POS, 0, 1023, 0, 180);
+  servo_3.write(POS);
+  DEG += servo_3.read();
+  Serial.print("DEG:");
+  Serial.println(DEG);
+  delay(15); // Wait for 15 millisecond(s)
+  
+   if (digitalRead(5) == HIGH) {
+    servo_3.write(30);
+    delay(1000); // Wait for 1000 millisecond(s)
+    servo_3.write(150);
+    delay(2000); // Wait for 2000 millisecond(s)
+    servo_3.write(30);
+    delay(1000); // Wait for 1000 millisecond(s)
+  }
+}
